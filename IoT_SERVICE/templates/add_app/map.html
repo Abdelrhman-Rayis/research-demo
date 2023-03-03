@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--Leaflet CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    #map {
+        width: 100%;
+        height: 100vh;
+    }
+
+</style>
+</head> 
+<body>
+    <div id="map"></div>
+</body>
+</html>
+
+<!--Leaflet JS-->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script>
+    // Map initialization 
+var map = L.map('map').setView([53.004353, -2.267430], 16.5);
+    // Osm Layer
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+ 
+osm.addTo(map);
+// Marker
+var SinglaeMarker = L.marker([53.004353, -2.267430]);
+var popup = SinglaeMarker.bindPopup('This is Keele!').openPopup()
+popup.addTo(map);
+
+fetch('./add_app/templates/add_app/data.json')
+  .then(response => response.json())
+  .then(data => {
+    for (const item of data) {
+  L.marker([item.lat, item.lng]).addTo(map);
+}
+  });
+
+</script>
